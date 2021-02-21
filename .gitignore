@@ -31,6 +31,9 @@
 *.out
 *.app
 
+
 catkin_ws/.vscode
 catkin_ws/build
 catkin_ws/devel
+catkin_ws/src/.vscode
+
