@@ -1,7 +1,0 @@
-<launch>
-
-    <include file="$(find volta_simulation)/launch/gazebo.launch"/>
-    <include file="$(find volta_simulation)/launch/simulation.launch"/>
-    <include file="$(find volta_teleoperator)/launch/teleoperator.launch"/>
-
-</launch>
