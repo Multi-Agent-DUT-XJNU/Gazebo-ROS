@@ -1,0 +1,12 @@
+<launch>
+
+
+    <include file="$(find warehouse_build)/launch/gazebo.launch" />
+    
+    <include file="$(find warehouse_build)/launch/simulation.launch" />
+
+
+</launch>
+
+
+

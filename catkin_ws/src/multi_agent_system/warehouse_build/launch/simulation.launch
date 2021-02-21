@@ -1,0 +1,108 @@
+<launch>
+    <!--4个volta机器人的初始位置和转向角度-->
+    <arg name="init1X" default="0.37"/>
+    <arg name="init1Y" default="12.89"/>
+    <arg name="init1Z" default="0.6"/>
+    <arg name="init1Yaw" default="0"/>
+
+    <arg name="init2X" default="18.03"/>
+    <arg name="init2Y" default="12.85"/>
+    <arg name="init2Z" default="0.6"/>
+    <arg name="init2Yaw" default="-1.5708"/>
+
+    <arg name="init3X" default="18.02"/>
+    <arg name="init3Y" default="0.66"/>
+    <arg name="init3Z" default="0.6"/>
+    <arg name="init3Yaw" default="3.14"/>
+
+    <arg name="init4X" default="0.41"/>
+    <arg name="init4Y" default="0.67"/>
+    <arg name="init4Z" default="0.6"/>
+    <arg name="init4Yaw" default="1.5708"/>
+
+    <!--将模型的描述文件解析后存储到参数服务器中-->
+    <arg name="model" default="$(find volta_description)/urdf/volta.xacro"/>
+    
+    <group ns="volta1">
+
+        <!--robot_description-->
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model) robot_namespace:=volta1 tf_pre:=volta1/"/>
+
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+            <param name="tf_prefix" value="volta1"/>
+        </node>
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+        
+        <node name="spawn_volta" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-urdf -model volta1 -param robot_description -x $(arg init1X) -y $(arg init1Y) -z $(arg init1Z) -R 0 -P 0 -Y $(arg init1Yaw)">
+        </node>
+  
+    </group>
+
+    <group ns="volta2">
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model) robot_namespace:=volta2 tf_pre:=volta2/"/>
+
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+            <param name="tf_prefix" value="volta2"/>
+        </node>
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
+        <node name="spawn_volta" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-urdf -model volta2 -param robot_description -x $(arg init2X) -y $(arg init2Y) -z $(arg init2Z) -R 0 -P 0 -Y $(arg init2Yaw)">
+        </node>
+    </group>
+
+
+    <group ns="volta3">
+        
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model) robot_namespace:=volta3 tf_pre:=volta3/"/>
+
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+            <param name="tf_prefix" value="volta3"/>
+        </node>
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
+        <node name="spawn_volta" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-urdf -model volta3 -param robot_description -x $(arg init3X) -y $(arg init3Y) -z $(arg init3Z) -R 0 -P 0 -Y $(arg init3Yaw)">
+        </node>
+    
+    </group>
+
+    <group ns="volta4">
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model) robot_namespace:=volta4 tf_pre:=volta4/"/>
+
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+            <param name="tf_prefix" value="volta4"/>
+        </node>
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
+        <node name="spawn_volta" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-urdf -model volta4 -param robot_description -x $(arg init4X) -y $(arg init4Y) -z $(arg init4Z) -R 0 -P 0 -Y $(arg init4Yaw)">
+        </node>
+    
+    </group>
+    
+
+    <node pkg="tf" type="static_transform_publisher" name="map_to_volta1" args="$(arg init1X) $(arg init1Y) 0 $(arg init1Yaw) 0.0 0 map volta1/odom 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="map_to_volta2" args="$(arg init2X) $(arg init2Y) 0 $(arg init2Yaw) 0.0 0 map volta2/odom 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="map_to_volta3" args="$(arg init3X) $(arg init3Y) 0 $(arg init3Yaw) 0.0 0 map volta3/odom 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="map_to_volta4" args="$(arg init4X) $(arg init4Y) 0 $(arg init4Yaw) 0.0 0 map volta4/odom 100"/>
+
+    <!-- <node pkg="tf" type="static_transform_publisher" name="imu_to_volta1" args="0 0 0.035 0 0.0 0 volta1/base_link volta1/imu 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="imu_to_volta2" args="0 0 0.035 0 0.0 0 volta2/base_link volta2/imu 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="imu_to_volta3" args="0 0 0.035 0 0.0 0 volta3/base_link volta3/imu 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="imu_to_volta4" args="0 0 0.035 0 0.0 0 volta4/base_link volta4/imu 100"/> -->
+
+    <!-- <node pkg="tf" type="static_transform_publisher" name="map_to_volta1" args="$(arg init1X) $(arg init1Y) 0 $(arg init1Yaw) 0.0 0 volta1/odom volta1/base_link 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="map_to_volta2" args="$(arg init2X) $(arg init2Y) 0 $(arg init2Yaw) 0.0 0 volta2/odom volta2/base_link 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="map_to_volta3" args="$(arg init3X) $(arg init3Y) 0 $(arg init3Yaw) 0.0 0 volta3/odom volta3/base_link 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="map_to_volta4" args="$(arg init4X) $(arg init4Y) 0 $(arg init4Yaw) 0.0 0 volta4/odom volta4/base_link 100"/> -->
+
+    <include file="$(find volta_control)/launch/mcontrol.launch" />
+
+    <include file="$(find volta_localization)/launch/mlocalization.launch" />
+
+</launch>
+
+
+
