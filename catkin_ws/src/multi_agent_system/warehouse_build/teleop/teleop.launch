@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="volta1" default="false" />
+    <arg name="volta2" default="false" />
+    <arg name="volta3" default="false" />
+    <arg name="volta4" default="false" />
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard">
+        <remap from="cmd_vel" to="cmd_vel1" if="$(arg volta1)"/>
+        <remap from="cmd_vel" to="cmd_vel2" if="$(arg volta2)"/>
+        <remap from="cmd_vel" to="cmd_vel3" if="$(arg volta3)"/>
+        <remap from="cmd_vel" to="cmd_vel4" if="$(arg volta4)"/>
+    </node>
+</launch>
+
+
+
+

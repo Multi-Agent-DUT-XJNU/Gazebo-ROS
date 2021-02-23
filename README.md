@@ -48,10 +48,14 @@ roslaunch warehouse_build gazebo.launch
 
 ### 机器人控制
 
-目前处于调试阶段，所以只对机器人volta2进行控制。执行下面的命令。
+在启动场景和机器人之后，可以选择自己想要控制的机器人。控制机器人有两种方式。
+
+* 用键盘控制
+
+通过更改volta后面的编号可以选择要控制的机器人，但要注意每次控制一个机器人。如果没有添加后面的赋值语句则默认用程序控制。
 
 ```shell
- roslaunch volta_teleoperator teleoperator.launch
+roslaunch warehouse_build teleop.launch volta2:=true
 ```
 
 执行完成后可以通过下面的键盘来进行控制移动
@@ -68,9 +72,15 @@ w/x : 增大/减少10%线速度
 
 e/c : 增大/减少10%角速度
 
+* 程序控制
 
+程序控制只需要执行
 
+```shell
+roslaunch warehouse_build teleop.launch 
+```
 
+这种方式需要自己编写程序在主题cmd_vel1,cmd_vel2,cmd_vel3或cmd_vel4主题上发布类型为``geometry_msgs/Twist Message``的消息。根据消息内的格式就能控制相应编号的机器人移动。
 
 
 
